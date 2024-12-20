@@ -1,12 +1,12 @@
 from typing import Set, Tuple, Dict, List
-from suggesters.protocols import ModelerProtocol
+from pywhyllm.protocols import ModelerProtocol
 import networkx as nx
 import guidance
-from .helpers import RelationshipStrategy, ModelType
+from pywhyllm.helpers import RelationshipStrategy, ModelType
 import copy
 import random
 from enum import Enum
-from .prompts import prompts as ps
+from pywhyllm.prompts import prompts as ps
 import os
 import re
 import csv
@@ -24,7 +24,7 @@ class ModelSuggester(ModelerProtocol):
         self,
         analysis_context,
         factors,
-        llm: guidance.llms,
+        llm: guidance.models._model.Model,
         n_experts: int = 1,
         temperature=0.3,
         model_type: ModelType = ModelType.Completion,
@@ -65,7 +65,7 @@ class ModelSuggester(ModelerProtocol):
         self,
         analysis_context,
         factors,
-        llm: guidance.llms,
+        llm: guidance.models._model.Model,
         n_experts: int = 5,
         temperature=0.3,
         model_type: ModelType = ModelType.Chat,
@@ -105,7 +105,7 @@ class ModelSuggester(ModelerProtocol):
     def suggest_stakeholders(
         self,
         factors,
-        llm: guidance.llms,
+        llm: guidance.models._model.Model,
         n_experts: int = 5,  # must be > 1
         temperature=0.3,
         analysis_context=CONTEXT,
@@ -148,7 +148,7 @@ class ModelSuggester(ModelerProtocol):
         treatment: str,
         outcome: str,
         factors_list: list(),
-        llm: guidance.llms,
+        llm: guidance.models._model.Model,
         experts: list() = EXPERTS,
         analysis_context: list() = CONTEXT,
         stakeholders: list() = None,
@@ -276,7 +276,7 @@ class ModelSuggester(ModelerProtocol):
         factor,
         factors_list,
         expert,
-        llm: guidance.llms,
+        llm: guidance.models._model.Model,
         temperature=0.3,
         model_type=ModelType.Completion,
     ):
@@ -328,7 +328,7 @@ class ModelSuggester(ModelerProtocol):
         factor,
         factors_list,
         expert,
-        llm: guidance.llms,
+        llm: guidance.models._model.Model,
         temperature=0.3,
         model_type=ModelType.Completion,
     ):
@@ -379,7 +379,7 @@ class ModelSuggester(ModelerProtocol):
         expert,
         factor_a: str,
         factor_b: str,
-        llm: guidance.llms,
+        llm: guidance.models._model.Model,
         temperature=0.3,
         analysis_context: str = CONTEXT,
         model_type=ModelType.Completion,
@@ -431,7 +431,7 @@ class ModelSuggester(ModelerProtocol):
         treatment: str,
         outcome: str,
         factors_list: list(),
-        llm: guidance.llms,
+        llm: guidance.models._model.Model,
         experts: list() = EXPERTS,
         analysis_context: str = CONTEXT,
         stakeholders: list() = None,

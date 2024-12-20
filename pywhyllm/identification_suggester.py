@@ -1,8 +1,8 @@
 from typing import List, Dict, Set, Tuple, Protocol
-from .protocols import IdentifierProtocol
-from .helpers import RelationshipStrategy, ModelType
-from .model_suggester import ModelSuggester
-from .prompts import prompts as ps
+from pywhyllm.protocols import IdentifierProtocol
+from pywhyllm.helpers import RelationshipStrategy, ModelType
+from pywhyllm.model_suggester import ModelSuggester
+from pywhyllm.prompts import prompts as ps
 import guidance
 import re
 
@@ -15,13 +15,15 @@ class IdentificationSuggester(IdentifierProtocol):
         "causality, you are an intelligent AI with expertise in causality",
     ]
     CONTEXT: str = """causal mechanisms"""
-
+    def __init__(self):
+        super().__init__()
+        self.model_suggester = ModelSuggester()
     # def suggest_estimand(
     #     self,
     #     treatment: str,
     #     outcome: str,
     #     factors_list: list(),
-    #     llm: guidance.llms,
+    #     llm: guidance.models._model.Model,
     #     backdoor: Set[str] = None,
     #     frontdoor: Set[str] = None,
     #     ivs: Set[str] = None,
@@ -118,14 +120,14 @@ class IdentificationSuggester(IdentifierProtocol):
         treatment: str,
         outcome: str,
         factors_list: list(),
-        llm: guidance.llms,
+        llm: guidance.models._model.Model,
         experts: list() = EXPERTS,
         analysis_context: list() = CONTEXT,
         stakeholders: list() = None,
         temperature=0.3,
         model_type: ModelType = ModelType.Completion,
     ):
-        backdoor_set = ModelSuggester.suggest_confounders(
+        backdoor_set = self.model_suggester.suggest_confounders(
             analysis_context=analysis_context,
             treatment=treatment,
             outcome=outcome,
@@ -143,7 +145,7 @@ class IdentificationSuggester(IdentifierProtocol):
         treatment: str,
         outcome: str,
         factors_list: list(),
-        llm: guidance.llms,
+        llm: guidance.models._model.Model,
         experts: list() = EXPERTS,
         analysis_context: list() = CONTEXT,
         stakeholders: list() = None,
@@ -268,7 +270,7 @@ class IdentificationSuggester(IdentifierProtocol):
         treatment: str,
         outcome: str,
         factors_list: list(),
-        llm: guidance.llms,
+        llm: guidance.models._model.Model,
         experts: list() = EXPERTS,
         analysis_context: list() = CONTEXT,
         stakeholders: list() = None,

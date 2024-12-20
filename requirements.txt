@@ -1,0 +1,3 @@
+networkx==3.2.1
+guidance==0.1.16
+openai==1.57.4
